@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Colors
-source ~/.zsh_tools/colors.sh
+source ~/.sh_tools/colors.sh
 
 # gets sublist of branches
 # $1 text contained in the branch name

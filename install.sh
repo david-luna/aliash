@@ -11,7 +11,9 @@ else
 fi
 
 # Copy sources
-#curl -o ~/.sh_tools/colors.sh "${BASE_URL}colors.sh"
-echo "${BASE_URL}colors.sh"
+curl -o ~/.sh_tools/colors.sh "${BASE_URL}colors.sh"
+curl -o ~/.sh_tools/get-cli.sh "${BASE_URL}git-cli.sh"
+curl -o ~/.sh_tools/with-env.sh "${BASE_URL}with-env.sh"
+curl -o ~/.sh_tools/with-env.sh "${BASE_URL}with-env.sh"
 
 # Add to rc/profile files
