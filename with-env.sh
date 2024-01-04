@@ -1,8 +1,3 @@
-#!/usr/bin/env bash
-
-# Colors
-source ~/.sh_tools/colors.sh
-
 # Use it to have default cloud environment for APM
 # Add environment files into a script
 # $1 name of the environment file we need to load
