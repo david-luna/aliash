@@ -38,8 +38,13 @@ if confirm "Install in ${INSTALL_PATH}?"; then
   done
 
   # source file to .zshrc or echo a message
-  if [ -f "${HOME}/.zshrc" ]; then
-    echo "\nsource ${INSTALL_PATH}/alia.sh" >> "${HOME}/.zshrc"
+  target="${HOME}/.zshrc"
+  if [ -f "$target" ]; then
+    echo "\nsource ${INSTALL_PATH}/alia.sh" >> "$target"
+  else
+    echo "Could not add aliases into $target"
+    echo "You can add the aliases manually by adding the following line into your .rc file"
+    echo "  source ${INSTALL_PATH}/alia.sh"
   fi
 
 else
