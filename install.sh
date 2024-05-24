@@ -14,10 +14,11 @@ function confirm() {
 }
 
 function addSource() {
-  url = "${INSTALL_URL}/sources/$1.sh"
-  echo "Downloading ${url}"
-  echo "\n\n file: ${url}\n"
-  curl "${INSTALL_URL}/sources/$1.sh" >> "${INSTALL_PATH}/alia.sh"
+  local url = "${INSTALL_URL}/sources/$1.sh"
+  local file = "${INSTALL_PATH}/alia.sh"
+  echo "Downloading $url"
+  echo "\n\n file: $url\n" >> $file
+  curl "${INSTALL_URL}/sources/$1.sh" >> $file
 }
 
 
