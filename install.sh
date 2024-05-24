@@ -5,6 +5,7 @@
 
 INSTALL_URL="https://raw.githubusercontent.com/david-luna/aliash/main"
 INSTALL_PATH=$(realpath ".")
+INSTALL_FILE="${INSTALL_PATH}/alia.sh"
 REQUIRED=("colors")
 OPTIONAL=("git-cli" "with-env")
 
@@ -14,16 +15,19 @@ function confirm() {
 }
 
 function addSource() {
-  local url = "${INSTALL_URL}/sources/$1.sh"
-  local file = "${INSTALL_PATH}/alia.sh"
+  local url="${INSTALL_URL}/sources/$1.sh"
+
   echo "Downloading $url"
-  echo "\n\n file: $url\n" >> $file
-  curl "${INSTALL_URL}/sources/$1.sh" >> $file
+  echo -e "\n\n# file: $url\n" >> $INSTALL_FILE
+  curl "${INSTALL_URL}/sources/$1.sh" >> $INSTALL_FILE
 }
 
 
 if confirm "Install in ${INSTALL_PATH}?"; then
   echo "Installing"
+  # cleanup any prev installation
+  rm $INSTALL_FILE;
+
   # add REQUIRED files
   for file in "${REQUIRED[@]}"
   do
@@ -41,11 +45,11 @@ if confirm "Install in ${INSTALL_PATH}?"; then
   # source file to .zshrc or echo a message
   target="${HOME}/.zshrc"
   if [ -f "$target" ]; then
-    echo "\nsource ${INSTALL_PATH}/alia.sh" >> "$target"
+    echo -e "\nsource ${INSTALL_FILE}" >> "$target"
   else
     echo "Could not add aliases into $target"
     echo "You can add the aliases manually by adding the following line into your .rc file"
-    echo "  source ${INSTALL_PATH}/alia.sh"
+    echo "  source ${INSTALL_FILE}/alia.sh"
   fi
 
 else
