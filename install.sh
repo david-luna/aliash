@@ -1,44 +1,45 @@
 #!/bin/bash
 
-# Credits to https://www.youtube.com/watch?v=mSXOYhfDFYo
+# Got these nice ideas from
+# https://www.youtube.com/watch?v=mSXOYhfDFYo
 
-function ask() {
+INSTALL_URL="https://raw.githubusercontent.com/david-luna/aliash/main"
+INSTALL_PATH=$(realpath ".")
+REQUIRED=("colors")
+OPTIONAL=("git-cli" "with-env")
+
+function confirm() {
   read -p "$1 (Y/n):" response
   [ -z "$response" ] || [ "$response" = "y" ]
 }
 
-fullpath=$(realpath ".")
+function addSource() {
+  echo "Downloading ${INSTALL_URL}/sources/$1.sh"
+  curl "${INSTALL_URL}/sources/$1.sh" >> "${INSTALL_PATH}/alia.sh"
+}
 
- echo "source $fullpath"
 
-# for file in sources/*
-# do
-#   fullpath=$(realpath $file)
-#   if ask "Source ${file}?"; then
-#     echo "source $fullpath" >> ~/.zshrc
-#   fi
-# done
+if confirm "Install in ${INSTALL_PATH}?"; then
+  echo "Installing"
+  # add REQUIRED files
+  for file in "${REQUIRED[@]}"
+  do
+    addSource "$file"
+  done
+  
+  # ask for the OPTIONAL
+  for file in "${OPTIONAL[@]}"
+  do
+    if confirm "Source ${file}?"; then
+      addSource "$file"
+    fi
+  done
 
-# BASE_PATH="~/.sh_tools"
-# BASE_URL="https://raw.githubusercontent.com/david-luna/shell-aliases/main/"
+  # source file to .zshrc or echo a message
+  if [ -f "~/.zshrc" ]; then
+    echo "source ${INSTALL_PATH}/alia.sh" >> ~/.zshrc
+  fi
 
-# # Create folder
-
-# if [ ! -d "$BASE_PATH" ]; then
-#   echo "Installing SH tools"
-#   mkdir ~/.sh_tools
-#   mkdir ~/.sh_tools/envs
-# fi
-
-# # Copy sources to a single file
-# rm -f ~/.sh_tools/aliases.sh
-# echo "#!/usr/bin/env bash" >> ~/.sh_tools/aliases.sh
-
-# files=("colors" "git-cli" "with-env")
-# for f in "${files[@]}"
-# do
-#   echo "Downloading ${BASE_URL}${f}.sh"
-#   curl "${BASE_URL}${f}.sh" >> ~/.sh_tools/aliases.sh
-# done
-
-# # TODO: Add to rc/profile files
+else
+  echo "Please create a folder and CD into it for installation"
+fi
