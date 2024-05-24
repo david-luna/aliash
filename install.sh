@@ -14,7 +14,9 @@ function confirm() {
 }
 
 function addSource() {
-  echo "Downloading ${INSTALL_URL}/sources/$1.sh"
+  url = "${INSTALL_URL}/sources/$1.sh"
+  echo "Downloading ${url}"
+  echo "\n\n file: ${url}\n"
   curl "${INSTALL_URL}/sources/$1.sh" >> "${INSTALL_PATH}/alia.sh"
 }
 
@@ -36,8 +38,8 @@ if confirm "Install in ${INSTALL_PATH}?"; then
   done
 
   # source file to .zshrc or echo a message
-  if [ -f "~/.zshrc" ]; then
-    echo "source ${INSTALL_PATH}/alia.sh" >> ~/.zshrc
+  if [ -f "${HOME}/.zshrc" ]; then
+    echo "\nsource ${INSTALL_PATH}/alia.sh" >> "${HOME}/.zshrc"
   fi
 
 else
